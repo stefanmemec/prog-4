@@ -11,8 +11,11 @@ int main() {
     vector<Edge> edges(m);
     vector<vector<pair<int,ll>>> adj(n);
     for(int i=0;i<m;i++){
-        int u,v; ll w; cin >> u >> v >> w;
-        u--; v--;
+        int u,v;
+        ll w;
+        cin >> u >> v >> w;
+        u--; 
+        v--;
         edges[i] = {u,v,w};
         adj[u].push_back(make_pair(v,w));
         adj[v].push_back(make_pair(u,w));
