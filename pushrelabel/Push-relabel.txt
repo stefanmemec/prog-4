@@ -1,0 +1,255 @@
+FORD FULKERSON
+Базирано на Ford-Fulkerson.
+
+Секогаш бара најкратка патека (по број на ребра) од source → sink со BFS.
+
+Кога ќе најде патека, ја зголемува струјата по тој пат.
+
+Повторува додека нема повеќе патеки.
+
+O(VE²) → најбавен од трите.
+
+Предности:
+
+Најлесен за разбирање и имплементација.
+
+Работи сигурно за сите графови.
+
+
+Недостатоци:
+
+МНОГУ бавен за големи графови.
+
+Практично неизводлив за > 2k nodes и > 10k edges.
+
+
+DINIC ALGORITHM
+
+
+Како работи:
+
+Градел “level graph” со BFS.
+
+Потоа со DFS пушта повеќе блокирачки струи низ тој граф (blocking flow).
+
+Повторува додека нема повеќе нивоа.
+
+✔ Време:
+
+Теоретски: O(√V * E) за единични тежини, O(V²E) најлошо.
+
+Практично: многу брз → најчесто најбрз за max flow.
+
+✔ Предности:
+
+Брз и ефикасен.
+
+Многу подобар од Edmonds-Karp.
+
+Често најдобар избор за competitive programming.
+
+✔ Недостатоци:
+
+Малку покомплексен за имплементација.
+
+Бара DFS + BFS комбинирано.
+
+
+
+PUSH_RELABEL
+
+
+Како работи:
+
+Наместо да наоѓа патеки, работи на ниво на јазли.
+
+Секој јазол има висина (height).
+
+Прво присилно "полни" сите соседи од source (preflow).
+
+Потоа:
+
+push: гура вишок струја кон сосед со помала висина.
+
+relabel: ако нема каде да ја турне, му ја зголемува висината.
+
+Повторува додека сите освен source/sink немаат вишок.
+
+✔ Време:
+
+Теоретски: O(V³).
+
+Со оптимизации (gap, FIFO): блиску до Dinic по перформанси.
+
+✔ Предности:
+
+Најдобар за густи графови (dense graphs).
+
+Многу брз во пракса со оптимизации.
+
+Концептот е едноставен.
+
+✔ Недостатоци:
+
+Пообемен код.
+
+Без оптимизации е побавен од Dinic.
+
+
+
+
+50 80
+0 1 12
+0 2 7
+0 3 5
+1 4 11
+1 5 8
+2 6 3
+2 7 6
+3 8 10
+3 9 4
+4 10 9
+4 11 5
+5 12 7
+5 13 2
+6 14 8
+6 15 6
+7 16 4
+7 17 9
+8 18 3
+8 19 10
+9 20 7
+9 21 5
+10 22 6
+10 23 8
+11 24 9
+11 25 4
+12 26 5
+12 27 7
+13 28 3
+13 29 6
+14 30 4
+14 31 10
+15 32 8
+15 33 6
+16 34 7
+16 35 5
+17 36 9
+17 37 2
+18 38 6
+18 39 3
+19 40 8
+19 41 4
+20 42 7
+20 43 9
+21 44 6
+21 45 5
+22 46 8
+22 47 3
+23 48 7
+23 49 10
+24 1 6
+25 2 5
+26 3 9
+27 4 7
+28 5 2
+29 6 8
+30 7 6
+31 8 5
+32 9 4
+33 10 7
+34 11 3
+35 12 6
+36 13 5
+37 14 9
+38 15 8
+39 16 6
+40 17 5
+41 18 7
+42 19 4
+43 20 6
+44 21 3
+45 22 9
+46 23 7
+47 24 5
+48 25 8
+49 26 6
+0 27 9
+1 28 7
+2 29 4
+3 30 5
+4 31 6
+0 49 
+
+
+
+31 output
+
+
+
+
+
+
+
+Corner cases
+4 5
+0 1 8
+0 2 8
+1 3 8
+2 1 1
+2 3 8
+0 3
+
+
+16 output
+
+
+
+8 16
+0 1 1
+0 2 1
+0 3 1
+1 4 1
+1 5 1
+1 6 1
+2 5 1
+3 5 1
+4 1 1
+4 7 1
+5 1 1
+5 2 1
+5 3 1
+5 7 1
+6 1 1
+6 7 1
+0 7
+
+3 output
+
+
+8 11
+0 1 1
+0 2 1
+0 3 1
+1 4 1
+1 5 1
+1 6 1
+2 5 1
+3 5 1
+4 7 1
+5 7 1
+6 7 1
+0 7
+
+
+
+3 output
+
+
+
+
+Pravi lokalni updates nonstop se dodeka ne se zadovolat site promenlivi. imame sekogas flow od pogolema visina koj pomala visina. na pocetok source e najvisok a sink i drugite se najniski (0).  source isprakja maksimum flow niz site edgovi dodeka ne se potrosi. isprakjanjeto flow kon site sosedi se vika PUSH, visinata na sosedite od source potoa se zgolemuvaat pa za toj flow da moze natamu da se prenesuva. zgolemuvanjeto na visinata e relabel operacija. Nodovite mozat temporalno da imat poveke flow koj doagja odkolku flow koj moze da izleze od niv ke objasneme i zosto. sekoj node ima excess flow. Node e active dokolku ima excess flow vo nego. Visinata na active nnode ja zgolemuvame so relabel operacijata. ako h e minimum visina megju site sosedi togas toj node moze da primi flow. potoa visinata se zgolemuva za h+1. potota pravime push na excess flow do site komsii koj se so pomala h od active node i koj mozat da primat flow. so toa primanje i tie ke stanat active. algoritmot zavrsuva koga nemame veke active nodovi. site nodovi imaat 2 atributi, visina i excess flow, site edges imaat capacity  i flow momentalen.
+
+
+
+
